@@ -1,6 +1,7 @@
 from scapy.all import sniff
 from scapy.all import IP
-from Firewall_Project3 import write_log,now
+from Firewall_Project3 import write_log
+from datetime import datetime
 
 firewall_rules = {
     "20.189.173.18":"block",
@@ -15,7 +16,7 @@ def handle_packet(packet):
         print(f"Source IP: {src} -> {action}")
 
         #Create timestamp and log_message
-        timestamp = now()
+        timestamp = datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
         log_message = f"{timestamp} | {src} | {action}"
 
         #Write logging into text file records
