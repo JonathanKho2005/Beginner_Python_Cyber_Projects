@@ -15,14 +15,17 @@ def handle_packet(packet):
         action = check_firewall_rules(src, firewall_rules)
         print(f"Source IP: {src} -> {action}")
 
-        #Create timestamp and log_message
-        timestamp = datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
-        log_message = f"{timestamp} | {src} | {action}"
-
-        #Write logging into text file records
-        write_log(log_message)
+        if action == "block":
+            timestamp = datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
+            log_message = f"{timestamp} | {src} | BLOCKED "
+            write_log(log_message)
+        else:
+            timestamp = datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
+            log_message = f"{timestamp} | {src} | {action}"
+            write_log(log_message)
 
 def check_firewall_rules(ip,rules):
     return rules.get(ip,"allow")
+
 
 sniff(prn=handle_packet)
